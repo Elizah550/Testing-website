@@ -38,9 +38,20 @@
   <!-- ======= Header ======= -->  
   <header id="header">
     <div class="d-flex flex-column">
-      <div class="profile">
+      <!-- <div class="profile">
         <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle">
-        <h1 class="text-light"><a href="index.html"> Riya Choudhary </a></h1>
+        <h1 class="text-light"><a href="index.html"> Pavan Choudhary </a></h1>
+        <div class="social-links mt-3 text-center">
+          <a href="https://twitter.com/" class="twitter"><i class="bx bxl-twitter"></i></a>
+          <a href="https://www.facebook.com/" class="facebook"><i class="bx bxl-facebook"></i></a>
+          <a href="https://www.instagram.com/" class="instagram"><i class="bx bxl-instagram"></i></a>
+          <a href="https://join.skype.com/invite/" class="google-plus"><i class="bx bxl-skype"></i></a>
+          <a href="https://www.linkedin.com/in" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+      </div> -->
+      <div class="profile" id="profile">
+        <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light"><a href="index.html"> Pavan Choudhary </a></h1>
         <div class="social-links mt-3 text-center">
           <a href="https://twitter.com/" class="twitter"><i class="bx bxl-twitter"></i></a>
           <a href="https://www.facebook.com/" class="facebook"><i class="bx bxl-facebook"></i></a>
@@ -49,6 +60,33 @@
           <a href="https://www.linkedin.com/in" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         </div>
       </div>
+      
+      <script>
+        document.addEventListener("DOMContentLoaded", function() {
+          const profile = document.getElementById("profile");
+      
+          profile.addEventListener("click", function() {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "image/*";
+      
+            fileInput.addEventListener("change", function() {
+              const file = fileInput.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                  const imageElement = profile.querySelector("img");
+                  imageElement.src = e.target.result;
+                  console.log("Image updated:", file.name);
+                }
+                reader.readAsDataURL(file);
+              }
+            });
+      
+            fileInput.click();
+          });
+        });
+      </script>      
       <nav class="nav-menu">
         <ul>
           <li class="active"><a href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
@@ -65,19 +103,54 @@
   </header>
   <!-- End Header -->
   <!-- ======= Hero Section ======= -->
-  <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
+  <section id="hero" class="d-flex flex-column justify-content-center align-items-center clickable-hero">
+    <div class="hero-container" data-aos="fade-in">
+      <h1> Riya Choudhary</h1>
+      <p>I'm <span class="typed" data-typed-items="Developer"></span></p>
+      <input type="file" id="upload-image" accept="image/*" style="display: none;" />
+    </div>
+  </section>
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const heroSection = document.getElementById("hero");
+      const uploadInput = document.getElementById("upload-image");
+  
+      heroSection.addEventListener("click", function() {
+        uploadInput.click();
+      });
+  
+      uploadInput.addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function() {
+            const imageDataURL = reader.result;
+            heroSection.style.backgroundImage = `url('${imageDataURL}')`;
+            const fileName = file.name;
+            const jsonData = {
+              "HeroImage": fileName
+            };
+            console.log(JSON.stringify(jsonData));
+          };
+          reader.readAsDataURL(file);
+        }  
+      });
+    });
+  </script>
+     
+  <!-- <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="hero-container" data-aos="fade-in">
       <h1> Riya Choudhary</h1>
       <p>I'm <span class="typed" data-typed-items="Developer"></span></p>
     </div>
-  </section>
+  </section> -->
   <!-- End Hero -->
   <main id="main">
     <!-- ======= About Section ======= -->
     <section id="about" class="about">
       <div class="container">
         <div class="section-title">
-          <h2>About</h2>
+          <h2 id="about-heading" contenteditable="true">About</h2>
           <div id="about-content" contenteditable="true">
             <!-- Your initial content here -->
             <p>Developed, tested and maintained HTML5-based accessible and mobile applications to deliver client content to devices without Flash support.</p>
@@ -97,9 +170,82 @@
         </div>
       </div>
     </section>
-
+    
     <!-- Edit and Update Buttons -->
     <div class="edit-update-buttons">
+      <button id="edit-button">Edit</button>
+      <button id="update-button">Update</button>
+    </div>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const aboutHeading = document.getElementById("about-heading");
+        const aboutContent = document.getElementById("about-content");
+    
+        editButton.addEventListener("click", function() {
+          aboutHeading.contentEditable = "true";
+          aboutContent.contentEditable = "true";
+          aboutContent.focus();
+        });
+    
+        updateButton.addEventListener("click", function() {
+          aboutHeading.contentEditable = "false";
+          aboutContent.contentEditable = "false";
+          
+          const updatedAboutHeading = aboutHeading.textContent.trim();
+          const normalText = [];
+          const bulletPoints = [];
+    
+          aboutContent.childNodes.forEach(node => {
+            if (node.nodeName.toLowerCase() === "p") {
+              // Handle normal text
+              const text = node.textContent.trim();
+              if (text !== "") {
+                normalText.push(text);
+              }
+            } else if (node.nodeName.toLowerCase() === "ul") {
+              // Handle bullet points
+              node.childNodes.forEach(liNode => {
+                if (liNode.nodeType === Node.ELEMENT_NODE && liNode.nodeName.toLowerCase() === "li") {
+                  bulletPoints.push(liNode.textContent.trim());
+                }
+              });
+            }
+          });
+    
+          const updatedContent = { "heading": updatedAboutHeading, "normalText": normalText, "bulletPoints": bulletPoints };
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>    
+    <!-- <section id="about" class="about">
+      <div class="container">
+        <div class="section-title">
+          <h2>About</h2>
+          <div id="about-content" contenteditable="true"> -->
+            <!-- Your initial content here -->
+            <!-- <p>Developed, tested and maintained HTML5-based accessible and mobile applications to deliver client content to devices without Flash support.</p>
+            <p>Researched, tested, and implemented Sencha-based JavaScript framework version of content delivery application to provide cross-platform delivery on WebKit-enabled devices.</p>
+            <p>Researched, tested, and implemented various client feature requests to internal content management systems and content delivery applications.</p>
+            <p>Enhanced use-ability resulting in higher conversion rates.</p>
+            <p>Environment: PHP5, MySQL, HTML, CSS, JavaScript, Git.</p>
+            <ul>
+              <li>Engaged in website maintenance and upgrading. Dealing with 'Order Form' submission and validation.</li>
+              <li>Performed server code optimization using PHP, Expanded existing MVC model.</li>
+              <li>Designed and maintained network traffic monitoring system to support network administrators.</li>
+              <li>Using PHP, MYSQL & JQUERY developed content management system for interlink sales managers and associates.</li>
+              <li>Changed various configurations so 'Lead System' would deliver leads to every dealer correctly.</li>
+              <li>Using PHP, MYSQL & JQUERY created a system to calculate revenue reports and then displayed them in sophisticated PDF and Excel Format. Created a system to calculate lead prediction for prospective dealers of Frontaccounting.</li>
+            </ul>
+          </div> -->
+        <!-- </div>
+      </div>
+    </section> -->
+
+    <!-- Edit and Update Buttons -->
+    <!-- <div class="edit-update-buttons">
       <button id="edit-button">Edit</button>
       <button id="update-button">Update</button>
     </div>
@@ -140,10 +286,73 @@
         console.log(JSON.stringify(updatedContent));
       });
     });
-    </script>
+    </script> -->
     <!-- End About Section -->
     <!-- ======= Facts Section ======= -->
     <section id="facts" class="facts">
+      <div class="container">
+        <div class="section-title">
+          <h2 contenteditable="true">Facts</h2> <!-- Making heading editable -->
+          <div id="facts-content" contenteditable="true">
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch" data-aos="fade-up">
+            <div class="count-box">
+              <i class="icofont-simple-smile"></i>
+              <span data-toggle="counter-up">232</span>
+              <p><strong>Happy Clients</strong> consequuntur quae</p>
+            </div>
+          </div>
+          <!-- More count boxes -->
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const FactsContent = document.getElementById("facts-content");
+        const FactsHeading = document.querySelector("#facts .section-title h2"); // Selecting the heading within the facts section
+    
+        editButton.addEventListener("click", function() {
+          FactsContent.contentEditable = "true";
+          FactsHeading.contentEditable = "true"; // Make the heading editable
+          FactsContent.focus();
+        });
+    
+        updateButton.addEventListener("click", function() {
+          FactsContent.contentEditable = "false";
+          FactsHeading.contentEditable = "false"; // Disable editing heading after updating
+          const FactsnormalText = [];
+          const FactsbulletPoints = [];
+    
+          FactsContent.childNodes.forEach(node => {
+            if (node.nodeName.toLowerCase() === "p") {
+              // Handle normal text
+              const text = node.textContent.trim();
+              if (text !== "") {
+                FactsnormalText.push(text);
+              }
+            } else if (node.nodeName.toLowerCase() === "ul") {
+              // Handle bullet points
+              node.childNodes.forEach(liNode => {
+                if (liNode.nodeType === Node.ELEMENT_NODE && liNode.nodeName.toLowerCase() === "li") {
+                  FactsbulletPoints.push(liNode.textContent.trim());
+                }
+              });
+            }
+          });
+    
+          const updatedContent = { "Heading": FactsHeading.textContent, "normalText": FactsnormalText, "bulletPoints": FactsbulletPoints };
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>
+    
+    <!-- <section id="facts" class="facts">
       <div class="container">
         <div class="section-title">
           <h2>Facts</h2>
@@ -183,7 +392,6 @@
         </div>
       </div>
     </section>
-    <!-- Facts--editing------------------------------------ -->
    <script>
     document.addEventListener("DOMContentLoaded", function() {
       const editButton = document.getElementById("edit-button");
@@ -192,7 +400,7 @@
 
       editButton.addEventListener("click", function() {
         FactsContent.contentEditable = "true";
-        FactsContent.focus();
+        // FactsContent.focus();
       });
 
       updateButton.addEventListener("click", function() {
@@ -221,7 +429,7 @@
         console.log(JSON.stringify(updatedContent));
       });
     });
-    </script>
+    </script> -->
     <!-- <section id="facts" class="facts">
       <div class="container">
         <div class="section-title">
@@ -264,6 +472,78 @@
     <!-- End Facts Section -->
     <!-- ======= Skills Section ======= -->
     <section id="skills" class="skills section-bg">
+      <div class="container">
+        <div class="section-title">
+          <h2 contenteditable="true">Skills</h2> <!-- Making heading editable -->
+          <div id="skills-content" contenteditable="true">
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          </div>
+        </div>
+        <div class="row skills-content">
+          <div class="col-lg-6" data-aos="fade-up">
+            <div class="progress">
+              <span class="skill">HTML <i class="val">100%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <!-- More progress bars -->
+          </div>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div class="progress">
+              <span class="skill">PHP <i class="val">80%</i></span>
+              <div class="progress-bar-wrap">
+                <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+              </div>
+            </div>
+            <!-- More progress bars -->
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const SkillsContent = document.getElementById("skills-content");
+        const SkillsHeading = document.querySelector("#skills .section-title h2"); // Selecting the heading within the skills section
+    
+        editButton.addEventListener("click", function() {
+          SkillsContent.contentEditable = "true";
+          SkillsHeading.contentEditable = "true"; // Make the heading editable
+          SkillsContent.focus();
+        });
+    
+        updateButton.addEventListener("click", function() {
+          SkillsContent.contentEditable = "false";
+          SkillsHeading.contentEditable = "false"; // Disable editing heading after updating
+          const SkillsnormalText = [];
+          const SkillsbulletPoints = [];
+    
+          SkillsContent.childNodes.forEach(node => {
+            if (node.nodeName.toLowerCase() === "p") {
+              // Handle normal text
+              const text = node.textContent.trim();
+              if (text !== "") {
+                SkillsnormalText.push(text);
+              }
+            } else if (node.nodeName.toLowerCase() === "ul") {
+              // Handle bullet points
+              node.childNodes.forEach(liNode => {
+                if (liNode.nodeType === Node.ELEMENT_NODE && liNode.nodeName.toLowerCase() === "li") {
+                  SkillsbulletPoints.push(liNode.textContent.trim());
+                }
+              });
+            }
+          });
+    
+          const updatedContent = { "Heading": SkillsHeading.textContent, "normalText": SkillsnormalText, "bulletPoints": SkillsbulletPoints };
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>    
+    <!-- <section id="skills" class="skills section-bg">
       <div class="container">
         <div class="section-title">
           <h2>Skills</h2>
@@ -316,8 +596,6 @@
         </div>
       </div>
     </section>
-    <!-- End Skills Section -->
-    <!-- Skills--editing------------------------------------ -->
    <script>
     document.addEventListener("DOMContentLoaded", function() {
       const editButton = document.getElementById("edit-button");
@@ -326,7 +604,7 @@
 
       editButton.addEventListener("click", function() {
         SkillsContent.contentEditable = "true";
-        SkillsContent.focus();
+        // SkillsContent.focus();
       });
 
       updateButton.addEventListener("click", function() {
@@ -355,18 +633,580 @@
         console.log(JSON.stringify(updatedContent));
       });
     });
-    </script>
+    </script> -->
     <!-- ======= Resume Section ======= -->
     <section id="resume" class="resume">
       <div class="container">
         <div class="section-title">
-          <h2>Resume</h2>
-          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi
-          quidem hic quas.</p>
+          <h2 contenteditable="true">Resume</h2> <!-- Making heading editable -->
+          <div id="resume-content" contenteditable="true">
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          </div>
         </div>
         <div class="row">
           <div class="col-lg-6" data-aos="fade-up">
-            <h3 class="resume-title">Sumary</h3>
+            <div id="summary" contenteditable="true">
+              <h3 class="resume-title">Summary</h3>
+              <div class="resume-item pb-0">
+                <h4>Alex Smith</h4>
+                <p><em>Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.</em></p>
+                <ul>
+                  <li>Portland par 127,Orlando, FL</li>
+                  <li>(123) 456-7891</li>
+                  <li>alice.barkley@example.com</li>
+                </ul>
+              </div>
+            </div>
+            <div id="education" contenteditable="true">
+              <h3 class="resume-title">Education</h3>
+              <div class="resume-item">
+                <h4>Master of Fine Arts &amp; Graphic Design</h4>
+                <h5>2015 - 2016</h5>
+                <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
+                <p>Qui deserunt veniam. Et sed aliquam labore tempore sed quisquam iusto autem sit. Ea vero voluptatum qui ut dignissimos deleniti nerada porti sand markend</p>
+              </div>
+              <div class="resume-item">
+                <h4>Bachelor of Fine Arts &amp; Graphic Design</h4>
+                <h5>2010 - 2014</h5>
+                <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
+                <p>Quia nobis sequi est occaecati aut. Repudiandae et iusto quae reiciendis et quis Eius vel ratione eius unde vitae rerum voluptates asperiores voluptatem Earum molestiae consequatur neque etlon sader mart dila</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div id="professional-experience" contenteditable="true">
+              <h3 class="resume-title">Professional Experience</h3>
+              <div class="resume-item">
+                <h4>Senior graphic design specialist</h4>
+                <h5>2019 - Present</h5>
+                <p><em>Experion, New York, NY </em></p>
+                <ul>
+                  <li>Lead in the design, development, and implementation of the graphic, layout, and production communication materials</li>
+                  <li>Delegate tasks to the 7 members of the design team and provide counsel on all aspects of the project. </li>
+                  <li>Supervise the assessment of all graphic materials in order to ensure quality and accuracy of the design</li>
+                  <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
+                </ul>
+              </div>
+              <div class="resume-item">
+                <h4>Graphic design specialist</h4>
+                <h5>2017 - 2018</h5>
+                <p><em>Stepping Stone Advertising, New York, NY</em></p>
+                <ul>
+                  <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and advertisements).</li>
+                  <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
+                  <li>Recommended and consulted with clients on the most appropriate graphic design</li>
+                  <li>Created 4+ design presentations and proposals a month for clients and account managers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+    
+        editButton.addEventListener("click", function() {
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          // Get the resume section
+          const resumeSection = document.getElementById("resume");
+    
+          // Get the resume section title
+          const resumeTitle = resumeSection.querySelector(".section-title h2").textContent.trim();
+    
+          // Initialize the resume content object
+          const resumeContent = {};
+    
+          // Get the resume content
+          const resumeContentParagraph = resumeSection.querySelector("#resume-content p");
+          resumeContent.normalText = resumeContentParagraph.textContent.trim();
+    
+          // Add the resume content to the resume content object
+          updatedContent[resumeTitle] = resumeContent;
+    
+          // Get all sub-sections
+          const subSections = resumeSection.querySelectorAll(".col-lg-6");
+    
+          // Loop through each sub-section
+          subSections.forEach(subSection => {
+            // Get the sub-section title
+            const subSectionTitle = subSection.querySelector(".resume-title").textContent.trim();
+    
+            // Initialize the sub-section content object
+            const subSectionContent = {};
+    
+            // Get the sub-section content
+            const subSectionContentItems = subSection.querySelectorAll(".resume-item");
+    
+            // Loop through each content item in the sub-section
+            subSectionContentItems.forEach((item, index) => {
+              const contentTitle = item.querySelector("h4").textContent.trim();
+              const contentParagraph = item.querySelector("p");
+              const contentList = item.querySelector("ul");
+    
+              const content = {};
+    
+              // Check if there is a paragraph
+              if (contentParagraph) {
+                content.normalText = contentParagraph.textContent.trim();
+              }
+    
+              // Check if there is a list
+              if (contentList) {
+                const bulletPoints = [];
+                contentList.querySelectorAll("li").forEach(li => {
+                  bulletPoints.push(li.textContent.trim());
+                });
+                content.bulletPoints = bulletPoints;
+              }
+    
+              // Add the content to the sub-section content object
+              subSectionContent[contentTitle] = content;
+            });
+    
+            // Add the sub-section content to the resume content object
+            updatedContent[resumeTitle][subSectionTitle] = subSectionContent;
+          });
+    
+          // Log the updated content
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>    
+    <!-- <section id="resume" class="resume">
+      <div class="container">
+        <div class="section-title">
+          <h2>Resume</h2>
+          <div id="resume-content" contenteditable="true">
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-up">
+            <div id="summary" contenteditable="true">
+              <h3 class="resume-title">Summary</h3>
+              <div class="resume-item pb-0">
+                <h4>Alex Smith</h4>
+                <p><em>Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.</em></p>
+                <ul>
+                  <li>Portland par 127,Orlando, FL</li>
+                  <li>(123) 456-7891</li>
+                  <li>alice.barkley@example.com</li>
+                </ul>
+              </div>
+            </div>
+            <div id="education" contenteditable="true">
+              <h3 class="resume-title">Education</h3>
+              <div class="resume-item">
+                <h4>Master of Fine Arts &amp; Graphic Design</h4>
+                <h5>2015 - 2016</h5>
+                <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
+                <p>Qui deserunt veniam. Et sed aliquam labore tempore sed quisquam iusto autem sit. Ea vero voluptatum qui ut dignissimos deleniti nerada porti sand markend</p>
+              </div>
+              <div class="resume-item">
+                <h4>Bachelor of Fine Arts &amp; Graphic Design</h4>
+                <h5>2010 - 2014</h5>
+                <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
+                <p>Quia nobis sequi est occaecati aut. Repudiandae et iusto quae reiciendis et quis Eius vel ratione eius unde vitae rerum voluptates asperiores voluptatem Earum molestiae consequatur neque etlon sader mart dila</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div id="professional-experience" contenteditable="true">
+              <h3 class="resume-title">Professional Experience</h3>
+              <div class="resume-item">
+                <h4>Senior graphic design specialist</h4>
+                <h5>2019 - Present</h5>
+                <p><em>Experion, New York, NY </em></p>
+                <ul>
+                  <li>Lead in the design, development, and implementation of the graphic, layout, and production communication materials</li>
+                  <li>Delegate tasks to the 7 members of the design team and provide counsel on all aspects of the project. </li>
+                  <li>Supervise the assessment of all graphic materials in order to ensure quality and accuracy of the design</li>
+                  <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
+                </ul>
+              </div>
+              <div class="resume-item">
+                <h4>Graphic design specialist</h4>
+                <h5>2017 - 2018</h5>
+                <p><em>Stepping Stone Advertising, New York, NY</em></p>
+                <ul>
+                  <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and advertisements).</li>
+                  <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
+                  <li>Recommended and consulted with clients on the most appropriate graphic design</li>
+                  <li>Created 4+ design presentations and proposals a month for clients and account managers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+    
+        editButton.addEventListener("click", function() {
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          // Get the resume section
+          const resumeSection = document.getElementById("resume");
+    
+          // Get the resume section title
+          const resumeTitle = resumeSection.querySelector(".section-title h2").textContent.trim();
+    
+          // Initialize the resume content object
+          const resumeContent = {};
+    
+          // Get the resume content
+          const resumeContentParagraph = resumeSection.querySelector("#resume-content p");
+          resumeContent.normalText = resumeContentParagraph.textContent.trim();
+    
+          // Add the resume content to the resume content object
+          updatedContent[resumeTitle] = resumeContent;
+    
+          // Get all sub-sections
+          const subSections = resumeSection.querySelectorAll(".col-lg-6");
+    
+          // Loop through each sub-section
+          subSections.forEach(subSection => {
+            // Get the sub-section title
+            const subSectionTitle = subSection.querySelector(".resume-title").textContent.trim();
+    
+            // Initialize the sub-section content object
+            const subSectionContent = {};
+    
+            // Get the sub-section content
+            const subSectionContentItems = subSection.querySelectorAll(".resume-item");
+    
+            // Loop through each content item in the sub-section
+            subSectionContentItems.forEach((item, index) => {
+              const contentTitle = item.querySelector("h4").textContent.trim();
+              const contentParagraph = item.querySelector("p");
+              const contentList = item.querySelector("ul");
+    
+              const content = {};
+    
+              // Check if there is a paragraph
+              if (contentParagraph) {
+                content.normalText = contentParagraph.textContent.trim();
+              }
+    
+              // Check if there is a list
+              if (contentList) {
+                const bulletPoints = [];
+                contentList.querySelectorAll("li").forEach(li => {
+                  bulletPoints.push(li.textContent.trim());
+                });
+                content.bulletPoints = bulletPoints;
+              }
+    
+              // Add the content to the sub-section content object
+              subSectionContent[contentTitle] = content;
+            });
+    
+            // Add the sub-section content to the resume content object
+            updatedContent[resumeTitle][subSectionTitle] = subSectionContent;
+          });
+    
+          // Log the updated content
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script> -->
+         
+    <!-- Workin--code --02 -->
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+    
+        editButton.addEventListener("click", function() {
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            const sectionId = element.id;
+            const sectionContent = {};
+            if (sectionId === "resume-content") {
+              sectionContent.normalText = element.querySelector("p").textContent.trim();
+            } else {
+              const heading = element.querySelector("h3.resume-title");
+              if (heading) {
+                const headingText = heading.textContent.trim();
+                const subContent = {};
+                const siblingParagraph = heading.nextElementSibling;
+                if (siblingParagraph && siblingParagraph.nodeName.toLowerCase() === "p") {
+                  subContent.normalText = siblingParagraph.textContent.trim();
+                }
+                const siblingUl = siblingParagraph.nextElementSibling;
+                if (siblingUl && siblingUl.nodeName.toLowerCase() === "ul") {
+                  const bulletPoints = [];
+                  siblingUl.querySelectorAll("li").forEach(li => {
+                    bulletPoints.push(li.textContent.trim());
+                  });
+                  subContent.bulletPoints = bulletPoints;
+                }
+                sectionContent[headingText] = subContent;
+              }
+            }
+            updatedContent[sectionId] = sectionContent;
+          });
+    
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>     -->
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+    
+        editButton.addEventListener("click", function() {
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            const sectionId = element.id;
+            const sectionContent = {};
+            if (sectionId === "resume-content") {
+              sectionContent.normalText = element.querySelector("p").textContent.trim();
+              // Log the updated content of the resume section
+              console.log(JSON.stringify({[sectionId]: sectionContent}));
+            } else {
+              const heading = element.querySelector("h3.resume-title");
+              if (heading) {
+                const headingText = heading.textContent.trim();
+                const completeText = element.textContent.trim();
+                const subContent = {};
+                const siblingParagraph = heading.nextElementSibling;
+                if (siblingParagraph && siblingParagraph.nodeName.toLowerCase() === "p") {
+                  subContent.normalText = siblingParagraph.textContent.trim();
+                }
+                const siblingUl = siblingParagraph.nextElementSibling;
+                if (siblingUl && siblingUl.nodeName.toLowerCase() === "ul") {
+                  const bulletPoints = [];
+                  siblingUl.querySelectorAll("li").forEach(li => {
+                    bulletPoints.push(li.textContent.trim());
+                  });
+                  subContent.bulletPoints = bulletPoints;
+                }
+                sectionContent[headingText] = subContent;
+                
+                // Log the updated header along with its content in JSON format
+                console.log(JSON.stringify({[headingText]: subContent}));
+              }
+            }
+            updatedContent[sectionId] = sectionContent;
+          });
+    
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script> -->
+       
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+    
+        editButton.addEventListener("click", function() {
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            const sectionId = element.id;
+            const sectionContent = {};
+            if (sectionId === "resume-content") {
+              sectionContent.normalText = element.querySelector("p").textContent.trim();
+            } else {
+              const heading = element.querySelector("h3.resume-title");
+              if (heading) {
+                const headingText = heading.textContent.trim();
+                const completeText = element.textContent.trim();
+                const subContent = {};
+                const siblingParagraph = heading.nextElementSibling;
+                if (siblingParagraph && siblingParagraph.nodeName.toLowerCase() === "p") {
+                  subContent.normalText = siblingParagraph.textContent.trim();
+                }
+                const siblingUl = siblingParagraph.nextElementSibling;
+                if (siblingUl && siblingUl.nodeName.toLowerCase() === "ul") {
+                  const bulletPoints = [];
+                  siblingUl.querySelectorAll("li").forEach(li => {
+                    bulletPoints.push(li.textContent.trim());
+                  });
+                  subContent.bulletPoints = bulletPoints;
+                }
+                sectionContent[headingText] = subContent;
+              }
+            }
+            updatedContent[sectionId] = sectionContent;
+          });
+    
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>     -->
+    <!-- working--code -->
+    <!-- <section id="resume" class="resume">
+      <div class="container">
+        <div class="section-title">
+          <h2>Resume</h2>
+          <div id="resume-content" contenteditable="true">
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi
+              quidem hic quas.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-up">
+            <div id="summary" contenteditable="true">
+              <h3 class="resume-title">Summary</h3>
+              <div class="resume-item pb-0">
+                <h4>Alex Smith</h4>
+                <p><em>Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.</em></p>
+                <ul>
+                  <li>Portland par 127,Orlando, FL</li>
+                  <li>(123) 456-7891</li>
+                  <li>alice.barkley@example.com</li>
+                </ul>
+              </div>
+            </div>
+            <div id="education" contenteditable="true">
+              <h3 class="resume-title">Education</h3>
+              <div class="resume-item">
+                <h4>Master of Fine Arts &amp; Graphic Design</h4>
+                <h5>2015 - 2016</h5>
+                <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
+                <p>Qui deserunt veniam. Et sed aliquam labore tempore sed quisquam iusto autem sit. Ea vero voluptatum qui ut dignissimos deleniti nerada porti sand markend</p>
+              </div>
+              <div class="resume-item">
+                <h4>Bachelor of Fine Arts &amp; Graphic Design</h4>
+                <h5>2010 - 2014</h5>
+                <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
+                <p>Quia nobis sequi est occaecati aut. Repudiandae et iusto quae reiciendis et quis Eius vel ratione eius unde vitae rerum voluptates asperiores voluptatem Earum molestiae consequatur neque etlon sader mart dila</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+            <div id="professional-experience" contenteditable="true">
+              <h3 class="resume-title">Professional Experience</h3>
+              <div class="resume-item">
+                <h4>Senior graphic design specialist</h4>
+                <h5>2019 - Present</h5>
+                <p><em>Experion, New York, NY </em></p>
+                <ul>
+                  <li>Lead in the design, development, and implementation of the graphic, layout, and production communication materials</li>
+                  <li>Delegate tasks to the 7 members of the design team and provide counsel on all aspects of the project. </li>
+                  <li>Supervise the assessment of all graphic materials in order to ensure quality and accuracy of the design</li>
+                  <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
+                </ul>
+              </div>
+              <div class="resume-item">
+                <h4>Graphic design specialist</h4>
+                <h5>2017 - 2018</h5>
+                <p><em>Stepping Stone Advertising, New York, NY</em></p>
+                <ul>
+                  <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and advertisements).</li>
+                  <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
+                  <li>Recommended and consulted with clients on the most appropriate graphic design</li>
+                  <li>Created 4+ design presentations and proposals a month for clients and account managers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+    
+        editButton.addEventListener("click", function() {
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          document.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            const sectionId = element.id;
+            const sectionContent = {};
+            if (sectionId === "resume-content") {
+              sectionContent.normalText = element.querySelector("p").textContent.trim();
+            } else {
+              element.querySelectorAll("h4").forEach(heading => {
+                const headingText = heading.textContent.trim();
+                const subContent = {};
+                const siblingParagraph = heading.nextElementSibling;
+                if (siblingParagraph && siblingParagraph.nodeName.toLowerCase() === "p") {
+                  subContent.normalText = siblingParagraph.textContent.trim();
+                }
+                const siblingUl = siblingParagraph.nextElementSibling;
+                if (siblingUl && siblingUl.nodeName.toLowerCase() === "ul") {
+                  const bulletPoints = [];
+                  siblingUl.querySelectorAll("li").forEach(li => {
+                    bulletPoints.push(li.textContent.trim());
+                  });
+                  subContent.bulletPoints = bulletPoints;
+                }
+                sectionContent[headingText] = subContent;
+              });
+            }
+            updatedContent[sectionId] = sectionContent;
+          });
+    
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>     -->
+    <!-- <section id="resume" class="resume">
+      <div class="container">
+        <div class="section-title">
+          <h2>Resume</h2>
+          <div id="resume-content" contenteditable="true">
+          <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi
+          quidem hic quas.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6" data-aos="fade-up">
+           <div id="resume-content" contenteditable="true">
+            <h3 class="resume-title">Summary</h3>
             <div class="resume-item pb-0">
               <h4>Alex Smith</h4>
               <p><em>Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.</em></p>
@@ -376,6 +1216,7 @@
                 <li>alice.barkley@example.com</li>
               </ul>
             </div>
+          </div>
             <h3 class="resume-title">Education</h3>
             <div class="resume-item">
               <h4>Master of Fine Arts &amp; Graphic Design</h4>
@@ -418,11 +1259,50 @@
         </div>
       </div>
     </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const resumeContent = document.getElementById("resume-content");
+  
+        editButton.addEventListener("click", function() {
+          resumeContent.contentEditable = "true";
+          // resumeContent.focus();
+        });
+  
+        updateButton.addEventListener("click", function() {
+          resumeContent.contentEditable = "false";
+          const resumenormalText = [];
+          const resumebulletPoints = [];
+  
+          resumeContent.childNodes.forEach(node => {
+            if (node.nodeName.toLowerCase() === "p") {
+              // Handle normal text
+              const text = node.textContent.trim();
+              if (text !== "") {
+                resumenormalText.push(text);
+              }
+            } else if (node.nodeName.toLowerCase() === "ul") {
+              // Handle bullet points
+              node.childNodes.forEach(liNode => {
+                if (liNode.nodeType === Node.ELEMENT_NODE && liNode.nodeName.toLowerCase() === "li") {
+                  resumebulletPoints.push(liNode.textContent.trim());
+                }
+              });
+            }
+          });
+  
+          const updatedContent = { "Resume": { "normalText": resumenormalText, "bulletPoints": resumebulletPoints } };
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+      </script> -->
     <!-- End Resume Section -->
     <!-- ======= Portfolio Section ======= -->
     <section id="portfolio" class="portfolio section-bg">
       <div class="container">
         <div class="section-title">
+          <div id="portfolio-conte" contenteditable="true">
           <h2>Portfolio</h2>
           <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi
           quidem hic quas.</p>
@@ -437,8 +1317,19 @@
             </ul>
           </div>
         </div>
+      </div>
         <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="100">
           <div class="col-lg-4 col-md-6 portfolio-item filter-app">
+            <div id="portfolio-conte" contenteditable="true">
+              <div class="portfolio-wrap" id="image-container">
+                <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
+                <div class="portfolio-links">
+                  <a href="assets/img/portfolio/portfolio-1.jpg" data-gall="portfolioGallery" class="venobox" title="App 1"><i class="bx bx-plus"></i></a>
+                  <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
+                </div>
+              </div>
+            </div>            
+            <!-- <div id="portfolio-conte" contenteditable="true">
             <div class="portfolio-wrap">
               <img src="assets/img/portfolio/portfolio-1.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
@@ -446,18 +1337,22 @@
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
+          </div> -->
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
+            <div id="portfolio-conte" contenteditable="true">
+            <div class="portfolio-wrap" id="image-container2">
               <img src="assets/img/portfolio/portfolio-2.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
                 <a href="assets/img/portfolio/portfolio-2.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
+            </div>
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
+            <div id="portfolio-conte" contenteditable="true">
+            <div class="portfolio-wrap" id="image-container3">
               <img src="assets/img/portfolio/portfolio-3.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
                 <a href="assets/img/portfolio/portfolio-3.jpg" data-gall="portfolioGallery" class="venobox" title="App 2"><i class="bx bx-plus"></i></a>
@@ -465,8 +1360,10 @@
               </div>
             </div>
           </div>
+          </div>
           <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
+            <div id="portfolio-conte" contenteditable="true">
+            <div class="portfolio-wrap"  id="image-container4">
               <img src="assets/img/portfolio/portfolio-4.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
                 <a href="assets/img/portfolio/portfolio-4.jpg" data-gall="portfolioGallery" class="venobox" title="Card 2"><i class="bx bx-plus"></i></a>
@@ -474,58 +1371,693 @@
               </div>
             </div>
           </div>
+          </div>
           <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
+            <div id="portfolio-conte" contenteditable="true">
+            <div class="portfolio-wrap"  id="image-container5">
               <img src="assets/img/portfolio/portfolio-5.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
                 <a href="assets/img/portfolio/portfolio-5.jpg" data-gall="portfolioGallery" class="venobox" title="Web 2"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
+            </div>
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item filter-app">
-            <div class="portfolio-wrap">
+            <div id="portfolio-conte" contenteditable="true">
+            <div class="portfolio-wrap"  id="image-container6">
               <img src="assets/img/portfolio/portfolio-6.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
                 <a href="assets/img/portfolio/portfolio-6.jpg" data-gall="portfolioGallery" class="venobox" title="App 3"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
+            </div>
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
+            <div id="portfolio-conte" contenteditable="true">
+            <div class="portfolio-wrap"  id="image-container7">
               <img src="assets/img/portfolio/portfolio-7.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
                 <a href="assets/img/portfolio/portfolio-7.jpg" data-gall="portfolioGallery" class="venobox" title="Card 1"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
+            </div>
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-            <div class="portfolio-wrap">
+            <div class="portfolio-wrap"  id="image-container8">
               <img src="assets/img/portfolio/portfolio-8.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
                 <a href="assets/img/portfolio/portfolio-8.jpg" data-gall="portfolioGallery" class="venobox" title="Card 3"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
+            </div>
           </div>
           <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-            <div class="portfolio-wrap">
+            <div class="portfolio-wrap"  id="image-container9">
               <img src="assets/img/portfolio/portfolio-9.jpg" class="img-fluid" alt="">
               <div class="portfolio-links">
                 <a href="assets/img/portfolio/portfolio-9.jpg" data-gall="portfolioGallery" class="venobox" title="Web 3"><i class="bx bx-plus"></i></a>
                 <a href="portfolio-details.html" title="More Details"><i class="bx bx-link"></i></a>
               </div>
             </div>
+            </div>
           </div>
         </div>
       </div>
     </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const updateButton = document.getElementById("update-button");
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          const portfolioSection = document.getElementById("portfolio");
+          const sectionId = portfolioSection.id;
+          updatedContent[sectionId] = {};
+    
+          const sectionContent = portfolioSection.querySelector("#portfolio-conte");
+          const sectionTitle = sectionContent.querySelector("h2").textContent.trim();
+          const sectionDescription = sectionContent.querySelector("p").textContent.trim();
+          updatedContent[sectionId]["Content"] = {
+            "Title": sectionTitle,
+            "Description": sectionDescription
+          };
+    
+          const portfolioItems = document.querySelectorAll(".portfolio-item");
+          portfolioItems.forEach((item, index) => {
+            const imageElement = item.querySelector("img");
+            const imageName = (index === 0) ? imageElement.src.substring(imageElement.src.lastIndexOf('/') + 1) : `portfolio-${index + 1}.jpg`;
+            updatedContent[sectionId][`Image ${index + 1}`] = imageName;
+          });
+    
+          console.log(JSON.stringify(updatedContent, null, 2));
+        });
+    
+        const imageContainer = document.getElementById("image-container");
+    
+        imageContainer.addEventListener("click", function() {
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+    
+          fileInput.addEventListener("change", function() {
+            const file = fileInput.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                imageContainer.querySelector("img").src = e.target.result;
+                const imageName = file.name;
+                const portfolioSection = document.getElementById("portfolio");
+                const sectionId = portfolioSection.id;
+                const updatedContent = {};
+                updatedContent[sectionId] = {};
+                updatedContent[sectionId][`Image 1`] = imageName;
+                console.log(JSON.stringify(updatedContent, null, 2));
+              }
+              reader.readAsDataURL(file);
+            }
+          });
+    
+          fileInput.click();
+        });
+        // ----imagecontainer--2
+      const imageContainer2 = document.getElementById("image-container2");
+    
+      imageContainer2.addEventListener("click", function() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+
+        fileInput.addEventListener("change", function() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imageContainer2.querySelector("img").src = e.target.result;
+              const imageName = file.name;
+              const portfolioSection = document.getElementById("portfolio");
+              const sectionId = portfolioSection.id;
+              const updatedContent = {};
+              updatedContent[sectionId] = {};
+              updatedContent[sectionId][`Image 2`] = imageName;
+              console.log(JSON.stringify(updatedContent, null, 2));
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+
+        fileInput.click();
+      });
+      // imageContainer--3
+      const imageContainer3 = document.getElementById("image-container3");
+      imageContainer3.addEventListener("click", function() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+
+        fileInput.addEventListener("change", function() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imageContainer3.querySelector("img").src = e.target.result;
+              const imageName = file.name;
+              const portfolioSection = document.getElementById("portfolio");
+              const sectionId = portfolioSection.id;
+              const updatedContent = {};
+              updatedContent[sectionId] = {};
+              updatedContent[sectionId][`Image 3`] = imageName;
+              console.log(JSON.stringify(updatedContent, null, 2));
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+
+        fileInput.click();
+      });
+      // imageContainer--4
+      const imageContainer4 = document.getElementById("image-container4");
+      imageContainer4.addEventListener("click", function() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+
+        fileInput.addEventListener("change", function() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imageContainer4.querySelector("img").src = e.target.result;
+              const imageName = file.name;
+              const portfolioSection = document.getElementById("portfolio");
+              const sectionId = portfolioSection.id;
+              const updatedContent = {};
+              updatedContent[sectionId] = {};
+              updatedContent[sectionId][`Image 4`] = imageName;
+              console.log(JSON.stringify(updatedContent, null, 2));
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+
+        fileInput.click();
+      });
+      // imageContainer--5
+      const imageContainer5 = document.getElementById("image-container5");
+      imageContainer5.addEventListener("click", function() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+
+        fileInput.addEventListener("change", function() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imageContainer5.querySelector("img").src = e.target.result;
+              const imageName = file.name;
+              const portfolioSection = document.getElementById("portfolio");
+              const sectionId = portfolioSection.id;
+              const updatedContent = {};
+              updatedContent[sectionId] = {};
+              updatedContent[sectionId][`Image 5`] = imageName;
+              console.log(JSON.stringify(updatedContent, null, 2));
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+        fileInput.click();
+        });
+        // imageContainer--6
+      const imageContainer6 = document.getElementById("image-container6");
+      imageContainer6.addEventListener("click", function() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+
+        fileInput.addEventListener("change", function() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imageContainer6.querySelector("img").src = e.target.result;
+              const imageName = file.name;
+              const portfolioSection = document.getElementById("portfolio");
+              const sectionId = portfolioSection.id;
+              const updatedContent = {};
+              updatedContent[sectionId] = {};
+              updatedContent[sectionId][`Image 6`] = imageName;
+              console.log(JSON.stringify(updatedContent, null, 2));
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+
+        fileInput.click();
+      });
+      // imageContainer--7
+      const imageContainer7 = document.getElementById("image-container7");
+      imageContainer7.addEventListener("click", function() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+
+        fileInput.addEventListener("change", function() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imageContainer7.querySelector("img").src = e.target.result;
+              const imageName = file.name;
+              const portfolioSection = document.getElementById("portfolio");
+              const sectionId = portfolioSection.id;
+              const updatedContent = {};
+              updatedContent[sectionId] = {};
+              updatedContent[sectionId][`Image 7`] = imageName;
+              console.log(JSON.stringify(updatedContent, null, 2));
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+
+        fileInput.click();
+      });
+      // imageContainer--8
+      const imageContainer8 = document.getElementById("image-container8");
+      imageContainer8.addEventListener("click", function() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+
+        fileInput.addEventListener("change", function() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imageContainer8.querySelector("img").src = e.target.result;
+              const imageName = file.name;
+              const portfolioSection = document.getElementById("portfolio");
+              const sectionId = portfolioSection.id;
+              const updatedContent = {};
+              updatedContent[sectionId] = {};
+              updatedContent[sectionId][`Image 8`] = imageName;
+              console.log(JSON.stringify(updatedContent, null, 2));
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+
+        fileInput.click();
+      });
+      // imageContainer--9
+      const imageContainer9 = document.getElementById("image-container9");
+      imageContainer9.addEventListener("click", function() {
+        const fileInput = document.createElement("input");
+        fileInput.type = "file";
+        fileInput.accept = "image/*";
+
+        fileInput.addEventListener("change", function() {
+          const file = fileInput.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = function(e) {
+              imageContainer9.querySelector("img").src = e.target.result;
+              const imageName = file.name;
+              const portfolioSection = document.getElementById("portfolio");
+              const sectionId = portfolioSection.id;
+              const updatedContent = {};
+              updatedContent[sectionId] = {};
+              updatedContent[sectionId][`Image 9`] = imageName;
+              console.log(JSON.stringify(updatedContent, null, 2));
+            }
+            reader.readAsDataURL(file);
+          }
+        });
+
+        fileInput.click();
+      });
+      });
+    </script>
+    
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const updateButton = document.getElementById("update-button");
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          const portfolioSection = document.getElementById("portfolio");
+          const sectionId = portfolioSection.id;
+          updatedContent[sectionId] = {};
+    
+          const sectionContent = portfolioSection.querySelector("#portfolio-conte");
+          const sectionTitle = sectionContent.querySelector("h2").textContent.trim();
+          const sectionDescription = sectionContent.querySelector("p").textContent.trim();
+          updatedContent[sectionId]["Content"] = {
+            "Title": sectionTitle,
+            "Description": sectionDescription
+          };
+    
+          const portfolioItems = document.querySelectorAll(".portfolio-item");
+          portfolioItems.forEach((item, index) => {
+            const imageElement = item.querySelector("img");
+    
+            const imageName = imageElement.src.substring(imageElement.src.lastIndexOf('/') + 1);
+            updatedContent[sectionId][`Image ${index + 1}`] = imageName;
+          });
+    
+          console.log(JSON.stringify(updatedContent, null, 2));
+        });
+    
+        const imageContainer = document.getElementById("image-container");
+    
+        imageContainer.addEventListener("click", function() {
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+    
+          fileInput.addEventListener("change", function() {
+            const file = fileInput.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                imageContainer.querySelector("img").src = e.target.result;
+                console.log("Image uploaded:", file.name);
+              }
+              reader.readAsDataURL(file);
+            }
+          });
+    
+          fileInput.click();
+        });
+      });
+    </script> -->
+    
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const updateButton = document.getElementById("update-button");
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          const portfolioSection = document.getElementById("portfolio");
+          const sectionId = portfolioSection.id;
+          updatedContent[sectionId] = {};
+    
+          const sectionContent = portfolioSection.querySelector("#portfolio-conte");
+          const sectionTitle = sectionContent.querySelector("h2").textContent.trim();
+          const sectionDescription = sectionContent.querySelector("p").textContent.trim();
+          updatedContent[sectionId]["Content"] = {
+            "Title": sectionTitle,
+            "Description": sectionDescription
+          };
+    
+          const portfolioItems = document.querySelectorAll(".portfolio-item");
+          portfolioItems.forEach((item, index) => {
+            const imageElement = item.querySelector("img");
+    
+            imageElement.addEventListener("click", function() {
+              const fileInput = document.createElement("input");
+              fileInput.type = "file";
+              fileInput.accept = "image/*";
+    
+              fileInput.addEventListener("change", function() {
+                const file = fileInput.files[0];
+                if (file) {
+                  const reader = new FileReader();
+                  reader.onload = function(e) {
+                    imageElement.src = e.target.result;
+                    updatedContent[sectionId][`Image ${index + 1}`] = file.name;
+                    console.log(JSON.stringify(updatedContent, null, 2));
+                  }
+                  reader.readAsDataURL(file);
+                }
+              });
+    
+              fileInput.click();
+            });
+          });
+    
+          console.log(JSON.stringify(updatedContent, null, 2));
+        });
+      });
+    </script>
+
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const imageContainer = document.getElementById("image-container");
+
+        imageContainer.addEventListener("click", function() {
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+
+          fileInput.addEventListener("change", function() {
+            const file = fileInput.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                imageContainer.querySelector("img").src = e.target.result;
+                console.log("Image uploaded:", file.name);
+              }
+              reader.readAsDataURL(file);
+            }
+          });
+
+          fileInput.click();
+        });
+      });
+    </script> -->
+
+    <!-- Working---code -->
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const updateButton = document.getElementById("update-button");
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          const portfolioSection = document.getElementById("portfolio");
+          const sectionId = portfolioSection.id;
+          updatedContent[sectionId] = {};
+    
+          const sectionContent = portfolioSection.querySelector("#portfolio-conte");
+          const sectionTitle = sectionContent.querySelector("h2").textContent.trim();
+          const sectionDescription = sectionContent.querySelector("p").textContent.trim();
+          updatedContent[sectionId]["Content"] = {
+            "Title": sectionTitle,
+            "Description": sectionDescription
+          };
+    
+          const portfolioItems = document.querySelectorAll(".portfolio-item");
+          portfolioItems.forEach((item, index) => {
+            const imageSrc = item.querySelector("img").getAttribute("src");
+            updatedContent[sectionId][`Image ${index + 1}`] = imageSrc;
+          });
+    
+          console.log(JSON.stringify(updatedContent, null, 2));
+        });
+      });
+    </script> -->
     <!-- End Portfolio Section -->
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
       <div class="container">
+        <div id="services-content" contenteditable="true">
+          <div class="section-title">
+            <h2>Services</h2>
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up">
+              <div class="icon"><i class="icofont-computer"></i></div>
+              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><i class="icofont-chart-bar-graph"></i></div>
+              <h4 class="title"><a href="">Dolor Sitema</a></h4>
+              <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><i class="icofont-earth"></i></div>
+              <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
+              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+              <div class="icon"><i class="icofont-image"></i></div>
+              <h4 class="title"><a href="">Magni Dolores</a></h4>
+              <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+              <div class="icon"><i class="icofont-settings"></i></div>
+              <h4 class="title"><a href="">Nemo Enim</a></h4>
+              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+              <div class="icon"><i class="icofont-tasks-alt"></i></div>
+              <h4 class="title"><a href="">Eiusmod Tempor</a></h4>
+              <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const servicesContent = document.getElementById("services-content");
+    
+        editButton.addEventListener("click", function() {
+          servicesContent.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          const sectionTitle = servicesContent.querySelector('.section-title h2').textContent.trim();
+          const sectionText = servicesContent.querySelector('.section-title p').textContent.trim();
+          updatedContent[sectionTitle] = { "sectionText": sectionText };
+    
+          servicesContent.querySelectorAll('.icon-box').forEach(service => {
+            const serviceNameLink = service.querySelector('.title a');
+            const serviceH4 = service.querySelector('.title h4');
+            const serviceDescription = service.querySelector('.description').textContent.trim();
+    
+            if (serviceNameLink) {
+              const serviceName = serviceNameLink.textContent.trim();
+              const updatedServiceName = serviceNameLink.hasAttribute('contenteditable') ? serviceNameLink.textContent.trim() : serviceName;
+              updatedContent[sectionTitle][updatedServiceName] = { "description": serviceDescription };
+              if(serviceH4){
+                updatedContent[sectionTitle][updatedServiceName].h4 = serviceH4.textContent.trim();
+              }
+            }
+          });
+    
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>    
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const servicesContent = document.getElementById("services-content");
+    
+        editButton.addEventListener("click", function() {
+          servicesContent.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          const sectionTitle = servicesContent.querySelector('.section-title h2').textContent.trim();
+          const sectionText = servicesContent.querySelector('.section-title p').textContent.trim();
+          updatedContent[sectionTitle] = { "sectionText": sectionText };
+    
+          servicesContent.querySelectorAll('.icon-box').forEach(service => {
+            const serviceName = service.querySelector('.title a').textContent.trim();
+            const serviceDescription = service.querySelector('.description').textContent.trim();
+    
+            updatedContent[sectionTitle][serviceName] = {
+              title: serviceDescription
+            };
+          });
+    
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script> -->
+    
+    <!-- //working--code -->
+    <!-- <section id="services" class="services">
+      <div class="container">
+        <div id="services-content" contenteditable="true">
+          <div class="section-title">
+            <h2>Services</h2>
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up">
+              <div class="icon"><i class="icofont-computer"></i></div>
+              <h4 class="title"><a href="">Lorem Ipsum</a></h4>
+              <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="100">
+              <div class="icon"><i class="icofont-chart-bar-graph"></i></div>
+              <h4 class="title"><a href="">Dolor Sitema</a></h4>
+              <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat tarad limino ata</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="200">
+              <div class="icon"><i class="icofont-earth"></i></div>
+              <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
+              <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="300">
+              <div class="icon"><i class="icofont-image"></i></div>
+              <h4 class="title"><a href="">Magni Dolores</a></h4>
+              <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="400">
+              <div class="icon"><i class="icofont-settings"></i></div>
+              <h4 class="title"><a href="">Nemo Enim</a></h4>
+              <p class="description">At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque</p>
+            </div>
+            <div class="col-lg-4 col-md-6 icon-box" data-aos="fade-up" data-aos-delay="500">
+              <div class="icon"><i class="icofont-tasks-alt"></i></div>
+              <h4 class="title"><a href="">Eiusmod Tempor</a></h4>
+              <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const servicesContent = document.getElementById("services-content");
+    
+        editButton.addEventListener("click", function() {
+          servicesContent.querySelectorAll('[contenteditable="true"]').forEach(element => {
+            element.setAttribute("contenteditable", "true");
+          });
+        });
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          const sectionTitle = servicesContent.querySelector('.section-title h2').textContent.trim();
+          const sectionText = servicesContent.querySelector('.section-title p').textContent.trim();
+          updatedContent[sectionTitle] = { "sectionText": sectionText };
+    
+          servicesContent.querySelectorAll('.icon-box').forEach(service => {
+            const serviceName = service.querySelector('.title a').textContent.trim();
+            const serviceDescription = service.querySelector('.description').textContent.trim();
+    
+            updatedContent[sectionTitle][serviceName] = {
+              title: serviceDescription
+            };
+          });
+    
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>     -->
+    <!-- <section id="services" class="services">
+      <div class="container">
+        <div id="services-content" contenteditable="true">
         <div class="section-title">
           <h2>Services</h2>
           <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi
@@ -563,12 +2095,119 @@
             <p class="description">Et harum quidem rerum facilis est et expedita distinctio. Nam libero tempore, cum soluta nobis est eligendi</p>
           </div>
         </div>
+        </div>
       </div>
-    </section>
+    </section> -->
     <!-- End Services Section -->
     <!-- ======= Testimonials Section ======= -->
     <section id="testimonials" class="testimonials section-bg">
       <div class="container">
+        <div id="services-content" contenteditable="true">
+          <div class="section-title">
+            <h2>Testimonials</h2>
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea.</p>
+          </div>
+          <div class="owl-carousel testimonials-carousel">
+            <div class="testimonial-item" data-aos="fade-up">
+              <p>
+                <i class="bx bxs-quote-alt-left quote-icon-left"></i> Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+              </p>
+              <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+              <h3>Saul Goodman</h3>
+              <h4>Ceo &amp; Founder</h4>
+            </div>
+            <div class="testimonial-item" data-aos="fade-up" data-aos-delay="100">
+              <p>
+                <i class="bx bxs-quote-alt-left quote-icon-left"></i> Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.
+                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+              </p>
+              <img src="assets/img/testimonials/testimonials-2.jpg" class="testimonial-img" alt="">
+              <h3>Sara Wilsson</h3>
+              <h4>Designer</h4>
+            </div>
+            <div class="testimonial-item" data-aos="fade-up" data-aos-delay="200">
+              <p>
+                <i class="bx bxs-quote-alt-left quote-icon-left"></i> Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.
+                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+              </p>
+              <img src="assets/img/testimonials/testimonials-3.jpg" class="testimonial-img" alt="">
+              <h3>Jena Karlis</h3>
+              <h4>Store Owner</h4>
+            </div>
+            <div class="testimonial-item" data-aos="fade-up" data-aos-delay="300">
+              <p>
+                <i class="bx bxs-quote-alt-left quote-icon-left"></i> Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.
+                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+              </p>
+              <img src="assets/img/testimonials/testimonials-4.jpg" class="testimonial-img" alt="">
+              <h3>Matt Brandon</h3>
+              <h4>Freelancer</h4>
+            </div>
+            <div class="testimonial-item" data-aos="fade-up" data-aos-delay="400">
+              <p>
+                <i class="bx bxs-quote-alt-left quote-icon-left"></i> Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.
+                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+              </p>
+              <img src="assets/img/testimonials/testimonials-5.jpg" class="testimonial-img" alt="">
+              <h3>John Larson</h3>
+              <h4>Entrepreneur</h4>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const updateButton = document.getElementById("update-button");
+        const testimonials = document.getElementById("testimonials");
+        const testimonialItems = testimonials.querySelectorAll(".testimonial-item");
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          updatedContent["Testimonials"] = [];
+          testimonialItems.forEach((item, index) => {
+            const testimonial = {};
+            testimonial["text"] = item.querySelector("p").textContent.trim();
+            testimonial["author"] = item.querySelector("h3").textContent.trim();
+            testimonial["position"] = item.querySelector("h4").textContent.trim();
+            updatedContent["Testimonials"].push(testimonial);
+          });
+    
+          console.log(JSON.stringify(updatedContent, null, 2));
+        });
+    
+        const imageContainer = document.getElementById("image-container");
+    
+        imageContainer.addEventListener("click", function() {
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+    
+          fileInput.addEventListener("change", function() {
+            const file = fileInput.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                for (let i = 0; i < testimonialItems.length; i++) {
+                  const imageElement = testimonialItems[i].querySelector(".testimonial-img");
+                  imageElement.src = e.target.result;
+                }
+                console.log("Images updated.");
+              }
+              reader.readAsDataURL(file);
+            }
+          });
+    
+          fileInput.click();
+        });
+      });
+    </script>    
+    <!-- <section id="testimonials" class="testimonials section-bg">
+      <div class="container">
+        <div id="services-content" contenteditable="true">
         <div class="section-title">
           <h2>Testimonials</h2>
           <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea.</p>
@@ -624,11 +2263,375 @@
             <h4>Entrepreneur</h4>
           </div>
         </div>
+        </div>
       </div>
     </section>
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const updateButton = document.getElementById("update-button");
+        const testimonials = document.getElementById("testimonials");
+        const testimonialItems = testimonials.querySelectorAll(".testimonial-item");
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          updatedContent["testimonials"] = [];
+          testimonialItems.forEach((item, index) => {
+            const testimonial = {};
+            testimonial["text"] = item.querySelector("p").textContent.trim();
+            testimonial["author"] = item.querySelector("h3").textContent.trim();
+            testimonial["position"] = item.querySelector("h4").textContent.trim();
+            updatedContent["testimonials"].push(testimonial);
+          });
+    
+          console.log(JSON.stringify(updatedContent, null, 2));
+        });
+    
+        const imageContainer = document.getElementById("image-container");
+    
+        imageContainer.addEventListener("click", function() {
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+    
+          fileInput.addEventListener("change", function() {
+            const file = fileInput.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                for (let i = 0; i < testimonialItems.length; i++) {
+                  const imageElement = testimonialItems[i].querySelector(".testimonial-img");
+                  imageElement.src = e.target.result;
+                }
+              }
+              reader.readAsDataURL(file);
+            }
+          });
+    
+          fileInput.click();
+        });
+      });
+    </script>     -->
     <!-- End Testimonials Section -->
     <!-- ======= Contact Section ======= -->
     <section id="contact" class="contact">
+      <div class="container">
+        <div class="section-title">
+          <h2 contenteditable="true">Contact</h2>
+          <p id="contact-content" contenteditable="true">Magnamawdawd dolodawdares commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+        <div class="row" data-aos="fade-in">
+          <div class="col-lg-5 d-flex align-items-stretch">
+            <div class="info">
+              <div class="address">
+                <i class="icofont-google-map"></i>
+                <h4 contenteditable="true">Location:</h4>
+                <p id="location" contenteditable="true">A108 Adwaawdadawdam Street, New York, NY 535022</p>
+              </div>
+              <div class="email">
+                <i class="icofont-envelope"></i>
+                <h4 contenteditable="true">Email:</h4>
+                <p id="email" contenteditable="true">info@edawdawddxample.com</p>
+              </div>
+              <div class="phone">
+                <i class="icofont-phone"></i>
+                <h4 contenteditable="true">Call:</h4>
+                <p id="call" contenteditable="true">+1 55awdawd89 55488 55s</p>
+              </div>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0"
+                style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+            <form id="contact-form" action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="name">Your Name</label>
+                  <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="name">Your Email</label>
+                  <input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validate"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name">Subject</label>
+                <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                <div class="validate"></div>
+              </div>
+              <div class="form-group">
+                <label for="name">Message</label>
+                <textarea class="form-control" name="message" id="message" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
+                <div class="validate"></div>
+              </div>
+              <div class="mb-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const contactContent = document.getElementById("contact-content");
+        const location = document.getElementById("location");
+        const email = document.getElementById("email");
+        const call = document.getElementById("call");
+    
+        editButton.addEventListener("click", function() {
+          contactContent.contentEditable = "true";
+          location.contentEditable = "true";
+          email.contentEditable = "true";
+          call.contentEditable = "true";
+        });
+    
+        updateButton.addEventListener("click", function() {
+          contactContent.contentEditable = "false";
+          email.contentEditable = "false";
+          call.contentEditable = "false";
+          let updatedContent = {
+            "Heading": document.querySelector("#contact .section-title h2").textContent.trim(),
+            "Content": contactContent.textContent.trim(),
+            "Email": email.textContent.trim(),
+            "Call": call.textContent.trim(),
+            "Location": location.textContent.trim()
+          };
+          console.log(JSON.stringify(updatedContent));
+        });
+    
+        const contactForm = document.getElementById("contact-form");
+        contactForm.addEventListener("submit", function(event) {
+          event.preventDefault();
+          // You can handle form submission here
+          // For demonstration purpose, let's just log the form data
+          const formData = new FormData(contactForm);
+          const formObject = {};
+          formData.forEach(function(value, key) {
+            formObject[key] = value;
+          });
+          console.log(JSON.stringify(formObject));
+        });
+      });
+    </script>
+    
+    <!-- working--code -->
+    <!-- <section id="contact" class="contact">
+      <div class="container">
+        <div class="section-title">
+          <h2 contenteditable="true">Contact</h2>
+          <p id="contact-content" contenteditable="true">Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+        <div class="row" data-aos="fade-in">
+          <div class="col-lg-5 d-flex align-items-stretch">
+            <div class="info">
+              <div class="address">
+                <i class="icofont-google-map"></i>
+                <h4 contenteditable="true">Location:</h4>
+                <p id="location" contenteditable="true">A108 Adam Street, New York, NY 535022</p>
+              </div>
+              <div class="email">
+                <i class="icofont-envelope"></i>
+                <h4 contenteditable="true">Email:</h4>
+                <p id="email" contenteditable="true">info@example.com</p>
+              </div>
+              <div class="phone">
+                <i class="icofont-phone"></i>
+                <h4 contenteditable="true">Call:</h4>
+                <p id="call" contenteditable="true">+1 5589 55488 55s</p>
+              </div>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0"
+                style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+            <form id="contact-form" action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="name">Your Name</label>
+                  <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="name">Your Email</label>
+                  <input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validate"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name">Subject</label>
+                <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                <div class="validate"></div>
+              </div>
+              <div class="form-group">
+                <label for="name">Message</label>
+                <textarea class="form-control" name="message" id="message" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
+                <div class="validate"></div>
+              </div>
+              <div class="mb-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const contactContent = document.getElementById("contact-content");
+        const location = document.getElementById("location");
+        const email = document.getElementById("email");
+        const call = document.getElementById("call");
+    
+        editButton.addEventListener("click", function() {
+          contactContent.contentEditable = "true";
+          location.contentEditable = "true";
+          email.contentEditable = "true";
+          call.contentEditable = "true";
+        });
+    
+        updateButton.addEventListener("click", function() {
+          contactContent.contentEditable = "false";
+          location.contentEditable = "false";
+          email.contentEditable = "false";
+          call.contentEditable = "false";
+          const updatedContent = {
+            "Heading": document.querySelector("#contact .section-title h2").textContent.trim(),
+            "Content": contactContent.textContent.trim(),
+            "Location": location.textContent.trim(),
+            "Email": email.textContent.trim(),
+            "Call": call.textContent.trim()
+          };
+          console.log(JSON.stringify(updatedContent));
+        });
+    
+        const contactForm = document.getElementById("contact-form");
+        contactForm.addEventListener("submit", function(event) {
+          event.preventDefault();
+          // You can handle form submission here
+          // For demonstration purpose, let's just log the form data
+          const formData = new FormData(contactForm);
+          const formObject = {};
+          formData.forEach(function(value, key) {
+            formObject[key] = value;
+          });
+          console.log(JSON.stringify(formObject));
+        });
+      });
+    </script>     -->
+    <!-- <section id="contact" class="contact">
+      <div class="container">
+        <div class="section-title">
+          <h2 contenteditable="true">Contact</h2>
+          <p id="contact-content" contenteditable="true">Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+        </div>
+        <div class="row" data-aos="fade-in">
+          <div class="col-lg-5 d-flex align-items-stretch">
+            <div class="info">
+              <div class="address">
+                <i class="icofont-google-map"></i>
+                <h4>Location:</h4>
+                <p>A108 Adam Street, New York, NY 535022</p>
+              </div>
+              <div class="email">
+                <i class="icofont-envelope"></i>
+                <h4>Email:</h4>
+                <p>info@example.com</p>
+              </div>
+              <div class="phone">
+                <i class="icofont-phone"></i>
+                <h4>Call:</h4>
+                <p>+1 5589 55488 55s</p>
+              </div>
+              <iframe src="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d12097.433213460943!2d-74.0062269!3d40.7101282!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xb89d1fe6bc499443!2sDowntown+Conference+Center!5e0!3m2!1smk!2sbg!4v1539943755621" frameborder="0"
+                style="border:0; width: 100%; height: 290px;" allowfullscreen></iframe>
+            </div>
+          </div>
+          <div class="col-lg-7 mt-5 mt-lg-0 d-flex align-items-stretch">
+            <form id="contact-form" action="forms/contact.php" method="post" role="form" class="php-email-form">
+              <div class="form-row">
+                <div class="form-group col-md-6">
+                  <label for="name">Your Name</label>
+                  <input type="text" name="name" class="form-control" id="name" data-rule="minlen:4" data-msg="Please enter at least 4 chars" />
+                  <div class="validate"></div>
+                </div>
+                <div class="form-group col-md-6">
+                  <label for="name">Your Email</label>
+                  <input type="email" class="form-control" name="email" id="email" data-rule="email" data-msg="Please enter a valid email" />
+                  <div class="validate"></div>
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="name">Subject</label>
+                <input type="text" class="form-control" name="subject" id="subject" data-rule="minlen:4" data-msg="Please enter at least 8 chars of subject" />
+                <div class="validate"></div>
+              </div>
+              <div class="form-group">
+                <label for="name">Message</label>
+                <textarea class="form-control" name="message" id="message" rows="10" data-rule="required" data-msg="Please write something for us"></textarea>
+                <div class="validate"></div>
+              </div>
+              <div class="mb-3">
+                <div class="loading">Loading</div>
+                <div class="error-message"></div>
+                <div class="sent-message">Your message has been sent. Thank you!</div>
+              </div>
+              <div class="text-center"><button type="submit">Send Message</button></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const contactContent = document.getElementById("contact-content");
+    
+        editButton.addEventListener("click", function() {
+          contactContent.contentEditable = "true";
+        });
+    
+        updateButton.addEventListener("click", function() {
+          contactContent.contentEditable = "false";
+          const updatedContent = {
+            "Heading": document.querySelector("#contact .section-title h2").textContent.trim(),
+            "Content": contactContent.textContent.trim()
+          };
+          console.log(JSON.stringify(updatedContent));
+        });
+    
+        const contactForm = document.getElementById("contact-form");
+        contactForm.addEventListener("submit", function(event) {
+          event.preventDefault();
+          // You can handle form submission here
+          // For demonstration purpose, let's just log the form data
+          const formData = new FormData(contactForm);
+          const formObject = {};
+          formData.forEach(function(value, key) {
+            formObject[key] = value;
+          });
+          console.log(JSON.stringify(formObject));
+        });
+      });
+    </script> -->
+    
+    <!-- <section id="contact" class="contact">
       <div class="container">
         <div class="section-title">
           <h2>Contact</h2>
@@ -691,7 +2694,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     <!-- End Contact Section -->
   </main>
   <!-- End #main -->
