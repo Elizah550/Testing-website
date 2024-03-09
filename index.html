@@ -32,6 +32,7 @@
   </style>
 </head>
 <body>
+  
 
   <!-- ======= Mobile nav toggle button ======= -->
   <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
@@ -49,7 +50,123 @@
           <a href="https://www.linkedin.com/in" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         </div>
       </div> -->
+      
       <div class="profile" id="profile">
+        <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light" id="name"><a href="index.html" contenteditable="true">Pavan Choudhary</a></h1>
+        <div class="social-links mt-3 text-center">
+            <a href="https://twitter.com/" class="twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="https://www.facebook.com/" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="https://www.instagram.com/" class="instagram"><i class="bx bxl-instagram"></i></a>
+            <a href="https://join.skype.com/invite/" class="google-plus"><i class="bx bxl-skype"></i></a>
+            <a href="https://www.linkedin.com/in" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+        <!-- <button id="update-button">Update</button> -->
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const name = document.getElementById("name").querySelector("a");
+            const updateButton = document.getElementById("update-button");
+    
+            // Event listener for clicking the "Update" button
+            updateButton.addEventListener("click", function() {
+                const newName = name.innerText.trim();
+                const storedNameJSON = localStorage.getItem('updatedName');
+                if (storedNameJSON) {
+                    const storedName = JSON.parse(storedNameJSON).name;
+                    if (newName !== storedName) {
+                        console.log("Updated name:", newName);
+                        const updatedNameJSON = JSON.stringify({ name: newName });
+                        console.log("Name in JSON format:", updatedNameJSON);
+                        localStorage.setItem('updatedName', updatedNameJSON);
+                    } else {
+                        console.log("Name not updated. Current name:", newName);
+                    }
+                } else {
+                    console.log("No updated name found.");
+                }
+            });
+        });
+    </script>
+    
+    
+      <!-- <div class="profile" id="profile">
+        <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light" id="name"><a href="index.html" contenteditable="true">Pavan Choudhary</a></h1>
+        <div class="social-links mt-3 text-center">
+            <a href="https://twitter.com/" class="twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="https://www.facebook.com/" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="https://www.instagram.com/" class="instagram"><i class="bx bxl-instagram"></i></a>
+            <a href="https://join.skype.com/invite/" class="google-plus"><i class="bx bxl-skype"></i></a>
+            <a href="https://www.linkedin.com/in" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+        <button id="update-button">Update</button>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const name = document.getElementById("name").querySelector("a");
+            const updateButton = document.getElementById("update-button");
+            let prevName = name.innerText.trim();
+    
+            // Function to handle live editing
+            function handleLiveEdit(event) {
+                const newName = event.target.innerText.trim();
+                if (newName !== prevName) {
+                    console.log("Name updated:", newName);
+                    // Convert the name to JSON format
+                    const jsonName = JSON.stringify({ name: newName });
+                    console.log("Name in JSON format:", jsonName);
+                    localStorage.setItem('updatedName', jsonName);
+                    prevName = newName;
+                }
+            }
+    
+            // Event listener for live editing
+            name.addEventListener("input", handleLiveEdit);
+    
+            // Event listener for clicking the "Update" button
+            updateButton.addEventListener("click", function() {
+                const storedNameJSON = localStorage.getItem('updatedName');
+                if (storedNameJSON) {
+                    console.log("Updated name in JSON format:", storedNameJSON);
+                } else {
+                    console.log("No updated name found.");
+                }
+            });
+        });
+    </script> -->
+    
+      <!-- <div class="profile" id="profile">
+        <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle">
+        <h1 class="text-light" id="name"><a href="index.html" contenteditable="true">Pavan Choudhary</a></h1>
+        <div class="social-links mt-3 text-center">
+            <a href="https://twitter.com/" class="twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="https://www.facebook.com/" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="https://www.instagram.com/" class="instagram"><i class="bx bxl-instagram"></i></a>
+            <a href="https://join.skype.com/invite/" class="google-plus"><i class="bx bxl-skype"></i></a>
+            <a href="https://www.linkedin.com/in" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+        <button id="updateBtn">Update</button>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const name = document.getElementById("name").querySelector("a");
+            const updateBtn = document.getElementById("updateBtn");
+    
+            updateBtn.addEventListener("click", function() {
+                const newName = name.innerText.trim();
+                console.log("Name updated:", newName);
+                // Convert the name to JSON format
+                const jsonName = JSON.stringify({ name: newName });
+                console.log("Name in JSON format:", jsonName);
+            });
+        });
+    </script> -->
+    
+      <!-- <div class="profile" id="profile">
         <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle">
         <h1 class="text-light"><a href="index.html"> Pavan Choudhary </a></h1>
         <div class="social-links mt-3 text-center">
@@ -86,8 +203,40 @@
             fileInput.click();
           });
         });
-      </script>      
+      </script>       -->
       <nav class="nav-menu">
+        <ul id="menu-list">
+            <li class="active" id="home"><a href="index.html" contenteditable="true">Home</a></li>
+            <li id="about"><a href="#about" contenteditable="true">About</a></li>
+            <li id="resume"><a href="#resume" contenteditable="true">Resume</a></li>
+            <li id="portfolio"><a href="#portfolio" contenteditable="true">Portfolio</a></li>
+            <li id="services"><a href="#services" contenteditable="true">Services</a></li>
+            <li id="contact"><a href="#contact" contenteditable="true">Contact</a></li>
+        </ul>
+        <!-- <button id="update-button">Update</button> -->
+    </nav>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const menuList = document.getElementById("menu-list");
+            const updateButton = document.getElementById("update-button");
+    
+            // Function to log updated menu items in JSON format
+            function logUpdatedMenuItems() {
+                const updatedMenu = { Navbar: {} };
+                const menuItems = menuList.getElementsByTagName("a");
+                for (let item of menuItems) {
+                    const itemName = item.innerText.trim();
+                    const itemId = item.parentElement.id;
+                    updatedMenu.Navbar[itemName] = itemName + " updated";
+                }
+                console.log(JSON.stringify(updatedMenu));
+            }
+            // Event listener for clicking the "Update" button
+            updateButton.addEventListener("click", logUpdatedMenuItems);
+        });
+    </script>    
+      <!-- <nav class="nav-menu">
         <ul>
           <li class="active"><a href="index.html"><i class="bx bx-home"></i> <span>Home</span></a></li>
           <li><a href="#about"><i class="bx bx-user"></i> <span>About</span></a></li>
@@ -96,7 +245,7 @@
           <li><a href="#services"><i class="bx bx-server"></i> Services</a></li>
           <li><a href="#contact"><i class="bx bx-envelope"></i> Contact</a></li>
         </ul>
-      </nav>
+      </nav> -->
       <!-- .nav-menu -->
       <button type="button" class="mobile-nav-toggle d-xl-none"><i class="icofont-navigation-menu"></i></button>
     </div>
@@ -104,6 +253,70 @@
   <!-- End Header -->
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="d-flex flex-column justify-content-center align-items-center clickable-hero">
+    <div class="hero-container" data-aos="fade-in">
+      <h1 contenteditable="true" id="hero-heading">Riya Choudhary</h1>
+      <p>I'm <span class="typed" data-typed-items="Developer"></span></p>
+      <input type="file" id="upload-image" accept="image/*" style="display: none;" />
+    </div>
+  </section>
+  
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      const heroSection = document.getElementById("hero");
+      const heroHeading = document.getElementById("hero-heading");
+      const uploadInput = document.getElementById("upload-image");
+  
+      // Function to update JSON with hero heading and image
+      function updateJSON() {
+        const headingText = heroHeading.textContent.trim();
+        const imageDataURL = heroSection.style.backgroundImage.slice(5, -2);
+        const jsonData = {
+          "Hero Heading": headingText,
+          "Hero Image": imageDataURL
+        };
+        console.log(JSON.stringify(jsonData));
+      }
+  
+      // Click event listener for opening file input or editing heading
+      heroSection.addEventListener("click", function(event) {
+        // Check if the click was on the hero heading
+        if (event.target === heroHeading) {
+          // Allow editing of the heading text when clicked twice
+          if (heroHeading.getAttribute("data-clicked")) {
+            heroHeading.contentEditable = "true";
+            heroHeading.focus();
+          } else {
+            heroHeading.setAttribute("data-clicked", "true");
+            setTimeout(() => {
+              heroHeading.removeAttribute("data-clicked");
+            }, 300); // Reset after 300 milliseconds
+          }
+        } else {
+          // Otherwise, open file input
+          uploadInput.click();
+        }
+      });
+  
+      // Change event listener for file input
+      uploadInput.addEventListener("change", function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          reader.onload = function() {
+            const imageDataURL = reader.result;
+            heroSection.style.backgroundImage = `url('${imageDataURL}')`;
+            updateJSON(); // Update JSON after setting the background image
+          };
+          reader.readAsDataURL(file);
+        }  
+      });
+  
+      // Listen for changes in the hero heading and update JSON accordingly
+      heroHeading.addEventListener("input", updateJSON);
+    });
+  </script>
+  
+  <!-- <section id="hero" class="d-flex flex-column justify-content-center align-items-center clickable-hero">
     <div class="hero-container" data-aos="fade-in">
       <h1> Riya Choudhary</h1>
       <p>I'm <span class="typed" data-typed-items="Developer"></span></p>
@@ -136,7 +349,7 @@
         }  
       });
     });
-  </script>
+  </script> -->
      
   <!-- <section id="hero" class="d-flex flex-column justify-content-center align-items-center">
     <div class="hero-container" data-aos="fade-in">
@@ -301,11 +514,83 @@
           <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch" data-aos="fade-up">
             <div class="count-box">
               <i class="icofont-simple-smile"></i>
+              <span id="happy-clients" contenteditable="true" data-toggle="counter-up">232</span>
+              <p id="happy-clients-text" contenteditable="true"><strong>Happy Clients</strong> consequuntur quae</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const editButton = document.getElementById("edit-button");
+        const updateButton = document.getElementById("update-button");
+        const FactsContent = document.getElementById("facts-content");
+        const FactsHeading = document.querySelector("#facts .section-title h2"); // Selecting the heading within the facts section
+        const happyClients = document.getElementById("happy-clients");
+        const happyClientsText = document.getElementById("happy-clients-text");
+    
+        editButton.addEventListener("click", function() {
+          FactsContent.contentEditable = "true";
+          FactsHeading.contentEditable = "true"; // Make the heading editable
+          happyClients.contentEditable = "true"; // Make the number editable
+          happyClientsText.contentEditable = "true"; // Make the content below number editable
+          FactsContent.focus();
+        });
+    
+        updateButton.addEventListener("click", function() {
+          FactsContent.contentEditable = "false";
+          FactsHeading.contentEditable = "false"; // Disable editing heading after updating
+          happyClients.contentEditable = "false"; // Disable editing number after updating
+          happyClientsText.contentEditable = "false"; // Disable editing content below number after updating
+          const FactsnormalText = [];
+          const FactsbulletPoints = [];
+    
+          FactsContent.childNodes.forEach(node => {
+            if (node.nodeName.toLowerCase() === "p") {
+              // Handle normal text
+              const text = node.textContent.trim();
+              if (text !== "") {
+                FactsnormalText.push(text);
+              }
+            } else if (node.nodeName.toLowerCase() === "ul") {
+              // Handle bullet points
+              node.childNodes.forEach(liNode => {
+                if (liNode.nodeType === Node.ELEMENT_NODE && liNode.nodeName.toLowerCase() === "li") {
+                  FactsbulletPoints.push(liNode.textContent.trim());
+                }
+              });
+            }
+          });
+    
+          const updatedContent = {
+            "Heading": FactsHeading.textContent,
+            "normalText": FactsnormalText,
+            "bulletPoints": FactsbulletPoints,
+            "Number": happyClients.textContent,
+            "ContentBelowNumber": happyClientsText.textContent
+          };
+          console.log(JSON.stringify(updatedContent));
+        });
+      });
+    </script>    
+    <!-- <section id="facts" class="facts">
+      <div class="container">
+        <div class="section-title">
+          <h2 contenteditable="true">Facts</h2>
+          <div id="facts-content" contenteditable="true">
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          </div>
+        </div>
+        <div class="row no-gutters">
+          <div class="col-lg-3 col-md-6 d-md-flex align-items-md-stretch" data-aos="fade-up">
+            <div class="count-box">
+              <i class="icofont-simple-smile"></i>
               <span data-toggle="counter-up">232</span>
               <p><strong>Happy Clients</strong> consequuntur quae</p>
             </div>
           </div>
-          <!-- More count boxes -->
         </div>
       </div>
     </section>
@@ -350,7 +635,7 @@
           console.log(JSON.stringify(updatedContent));
         });
       });
-    </script>
+    </script> -->
     
     <!-- <section id="facts" class="facts">
       <div class="container">
@@ -512,7 +797,7 @@
         editButton.addEventListener("click", function() {
           SkillsContent.contentEditable = "true";
           SkillsHeading.contentEditable = "true"; // Make the heading editable
-          SkillsContent.focus();
+          // SkillsContent.focus();
         });
     
         updateButton.addEventListener("click", function() {
@@ -635,10 +920,85 @@
     });
     </script> -->
     <!-- ======= Resume Section ======= -->
+    <style>
+      .resume-column {
+        height: 500px; /* Set a fixed height for the columns */
+        overflow-y: auto; /* Enable vertical overflow scrolling */
+      }
+    </style>
+    
     <section id="resume" class="resume">
       <div class="container">
         <div class="section-title">
           <h2 contenteditable="true">Resume</h2> <!-- Making heading editable -->
+          <div id="resume-content" contenteditable="true">
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-6 resume-column" data-aos="fade-up">
+            <div id="summary" contenteditable="true">
+              <h3 class="resume-title">Summary</h3>
+              <div class="resume-item pb-0">
+                <h4>Alex Smith</h4>
+                <p><em>Innovative and deadline-driven Graphic Designer with 3+ years of experience designing and developing user-centered digital/print marketing material from initial concept to final, polished deliverable.</em></p>
+                <ul>
+                  <li>Portland par 127,Orlando, FL</li>
+                  <li>(123) 456-7891</li>
+                  <li>alice.barkley@example.com</li>
+                </ul>
+              </div>
+            </div>
+            <div id="education" contenteditable="true">
+              <h3 class="resume-title">Education</h3>
+              <div class="resume-item">
+                <h4>Master of Fine Arts &amp; Graphic Design</h4>
+                <h5>2015 - 2016</h5>
+                <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
+                <p>Qui deserunt veniam. Et sed aliquam labore tempore sed quisquam iusto autem sit. Ea vero voluptatum qui ut dignissimos deleniti nerada porti sand markend</p>
+              </div>
+              <div class="resume-item">
+                <h4>Bachelor of Fine Arts &amp; Graphic Design</h4>
+                <h5>2010 - 2014</h5>
+                <p><em>Rochester Institute of Technology, Rochester, NY</em></p>
+                <p>Quia nobis sequi est occaecati aut. Repudiandae et iusto quae reiciendis et quis Eius vel ratione eius unde vitae rerum voluptates asperiores voluptatem Earum molestiae consequatur neque etlon sader mart dila</p>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-6 resume-column" data-aos="fade-up" data-aos-delay="100">
+            <div id="professional-experience" contenteditable="true">
+              <h3 class="resume-title">Professional Experience</h3>
+              <div class="resume-item">
+                <h4>Senior graphic design specialist</h4>
+                <h5>2019 - Present</h5>
+                <p><em>Experion, New York, NY </em></p>
+                <ul>
+                  <li>Lead in the design, development, and implementation of the graphic, layout, and production communication materials</li>
+                  <li>Delegate tasks to the 7 members of the design team and provide counsel on all aspects of the project. </li>
+                  <li>Supervise the assessment of all graphic materials in order to ensure quality and accuracy of the design</li>
+                  <li>Oversee the efficient use of production project budgets ranging from $2,000 - $25,000</li>
+                </ul>
+              </div >
+              <div class="resume-item">
+                <h4>Graphic design specialist</h4>
+                <h5>2017 - 2018</h5>
+                <p><em>Stepping Stone Advertising, New York, NY</em></p>
+                <ul>
+                  <li>Developed numerous marketing programs (logos, brochures,infographics, presentations, and advertisements).</li>
+                  <li>Managed up to 5 projects or tasks at a given time while under pressure</li>
+                  <li>Recommended and consulted with clients on the most appropriate graphic design</li>
+                  <li>Created 4+ design presentations and proposals a month for clients and account managers</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>    
+    <!-- <section id="resume" class="resume">
+      <div class="container">
+        <div class="section-title">
+          <h2 contenteditable="true">Resume</h2> 
           <div id="resume-content" contenteditable="true">
             <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
           </div>
@@ -702,7 +1062,7 @@
           </div>
         </div>
       </div>
-    </section>
+    </section> -->
     
     <script>
       document.addEventListener("DOMContentLoaded", function() {
@@ -1457,6 +1817,85 @@
           console.log(JSON.stringify(updatedContent, null, 2));
         });
     
+        const addImageContainerListener = function(imageContainerId, imageIndex) {
+          const imageContainer = document.getElementById(imageContainerId);
+    
+          imageContainer.addEventListener("click", function() {
+            const fileInput = document.createElement("input");
+            fileInput.type = "file";
+            fileInput.accept = "image/*";
+    
+            fileInput.addEventListener("change", function() {
+              const file = fileInput.files[0];
+              if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                  const image = new Image();
+                  image.src = e.target.result;
+                  image.onload = function() {
+                    if (image.width === 800 && image.height === 600) {
+                      imageContainer.querySelector("img").src = e.target.result;
+                      const imageName = file.name;
+                      const portfolioSection = document.getElementById("portfolio");
+                      const sectionId = portfolioSection.id;
+                      const updatedContent = {};
+                      updatedContent[sectionId] = {};
+                      updatedContent[sectionId][`Image ${imageIndex}`] = imageName;
+                      console.log(JSON.stringify(updatedContent, null, 2));
+                    } else {
+                      alert("Image dimensions must be 800x600.");
+                    }
+                  };
+                }
+                reader.readAsDataURL(file);
+              }
+            });
+    
+            fileInput.click();
+          });
+        };
+    
+        addImageContainerListener("image-container", 1);
+        addImageContainerListener("image-container2", 2);
+        addImageContainerListener("image-container3", 3);
+        addImageContainerListener("image-container4", 4);
+        addImageContainerListener("image-container5", 5);
+        addImageContainerListener("image-container6", 6);
+        addImageContainerListener("image-container7", 7);
+        addImageContainerListener("image-container8", 8);
+        addImageContainerListener("image-container9", 9);
+      });
+    </script>
+    
+    <!-- <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const updateButton = document.getElementById("update-button");
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          const portfolioSection = document.getElementById("portfolio");
+          const sectionId = portfolioSection.id;
+          updatedContent[sectionId] = {};
+    
+          const sectionContent = portfolioSection.querySelector("#portfolio-conte");
+          const sectionTitle = sectionContent.querySelector("h2").textContent.trim();
+          const sectionDescription = sectionContent.querySelector("p").textContent.trim();
+          updatedContent[sectionId]["Content"] = {
+            "Title": sectionTitle,
+            "Description": sectionDescription
+          };
+    
+          const portfolioItems = document.querySelectorAll(".portfolio-item");
+          portfolioItems.forEach((item, index) => {
+            const imageElement = item.querySelector("img");
+            const imageName = (index === 0) ? imageElement.src.substring(imageElement.src.lastIndexOf('/') + 1) : `portfolio-${index + 1}.jpg`;
+            updatedContent[sectionId][`Image ${index + 1}`] = imageName;
+          });
+    
+          console.log(JSON.stringify(updatedContent, null, 2));
+        });
+    
         const imageContainer = document.getElementById("image-container");
     
         imageContainer.addEventListener("click", function() {
@@ -1701,7 +2140,7 @@
         fileInput.click();
       });
       });
-    </script>
+    </script> -->
     
     <!-- <script>
       document.addEventListener("DOMContentLoaded", function() {
@@ -2109,6 +2548,90 @@
           </div>
           <div class="owl-carousel testimonials-carousel">
             <div class="testimonial-item" data-aos="fade-up">
+              <p contenteditable="true">
+                <span contenteditable="true" class="quote-icon-left-wrapper">
+                  <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                </span>
+                Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
+                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+              </p>
+              <img src="assets/img/testimonials/testimonials-1.jpg" class="testimonial-img" alt="">
+              <h3 contenteditable="true">Saul Goodman</h3>
+              <h4 contenteditable="true">Ceo &amp; Founder</h4>
+            </div>
+            <!-- other testimonial items go here -->
+          </div>
+        </div>
+      </div>
+    </section>
+    
+    <script>
+      document.addEventListener("DOMContentLoaded", function() {
+        const updateButton = document.getElementById("update-button");
+        const testimonials = document.getElementById("testimonials");
+        const testimonialItems = testimonials.querySelectorAll(".testimonial-item");
+    
+        updateButton.addEventListener("click", function() {
+          const updatedContent = {};
+    
+          updatedContent["Testimonials"] = {};
+          testimonialItems.forEach((item, index) => {
+            const testimonial = {};
+            testimonial["Content"] = item.querySelector("p").textContent.trim();
+            testimonial[`Testimonial_${index + 1}`] = {
+              "author": item.querySelector("h3").textContent.trim(),
+              "position": item.querySelector("h4").textContent.trim()
+            };
+            updatedContent["Testimonials"] = testimonial;
+          });
+    
+          console.log(JSON.stringify(updatedContent, null, 2));
+        });
+    
+        const imageContainer = document.getElementById("image-container");
+    
+        imageContainer.addEventListener("click", function() {
+          const fileInput = document.createElement("input");
+          fileInput.type = "file";
+          fileInput.accept = "image/*";
+    
+          fileInput.addEventListener("change", function() {
+            const file = fileInput.files[0];
+            if (file) {
+              const reader = new FileReader();
+              reader.onload = function(e) {
+                for (let i = 0; i < testimonialItems.length; i++) {
+                  const imageElement = testimonialItems[i].querySelector(".testimonial-img");
+                  imageElement.src = e.target.result;
+                }
+                console.log("Images updated.");
+              };
+              reader.readAsDataURL(file);
+            }
+          });
+    
+          fileInput.click();
+        });
+    
+        testimonialItems.forEach(item => {
+          item.querySelectorAll("[contenteditable=true]").forEach(element => {
+            element.addEventListener("input", function() {
+              this.style.transition = "none";
+            });
+          });
+        });
+      });
+    </script>
+    
+    <!-- <section id="testimonials" class="testimonials section-bg">
+      <div class="container">
+        <div id="services-content" contenteditable="true">
+          <div class="section-title">
+            <h2>Testimonials</h2>
+            <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea.</p>
+          </div>
+          <div class="owl-carousel testimonials-carousel">
+            <div class="testimonial-item" data-aos="fade-up">
               <p>
                 <i class="bx bxs-quote-alt-left quote-icon-left"></i> Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.
                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
@@ -2204,7 +2727,7 @@
           fileInput.click();
         });
       });
-    </script>    
+    </script>     -->
     <!-- <section id="testimonials" class="testimonials section-bg">
       <div class="container">
         <div id="services-content" contenteditable="true">
@@ -2701,6 +3224,41 @@
   <!-- ======= Footer ======= -->
   <footer id="footer">
     <div class="container">
+      <div class="copyright" contenteditable="true" id="editableCopyright">
+        &copy; Copyright <strong><span>iPortfolio</span></strong>
+      </div>
+      <div class="credits" contenteditable="true" id="editableDesigner">
+        Designed by <a href="https://www.linkedin.com/in" id="designer">Riya Choudhary</a>
+      </div>
+    </div>
+  </footer>
+  
+  
+  <script>
+    document.getElementById("update-button").addEventListener("click", function() {
+      updateJSON();
+    });
+  
+    function updateJSON() {
+      var footerContent = {
+        "Footer": {
+          "Copyright": document.getElementById("editableCopyright").innerText,
+          "Designer": document.getElementById("editableDesigner").innerText
+        }
+      };
+      
+      // Convert JSON object to string
+      var jsonString = JSON.stringify(footerContent);
+      
+      // Print JSON string
+      console.log(jsonString);
+    }
+  </script>
+  
+  
+  
+  <!-- <footer id="footer">
+    <div class="container">
       <div class="copyright">
         &copy; Copyright <strong><span>iPortfolio</span></strong>
       </div>
@@ -2708,7 +3266,7 @@
         Designed by <a href="https://www.linkedin.com/in">Riya Choudhary</a>
       </div>
     </div>
-  </footer>
+  </footer> -->
   <!-- End Footer -->
   <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
   <!-- Vendor JS Files -->
