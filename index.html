@@ -52,6 +52,65 @@
       </div> -->
       
       <div class="profile" id="profile">
+        <div style="padding-left: 70px;">
+        <input type="file" id="image-input" accept="image/*" style="display: none;">
+        <label for="image-input">
+          <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle" id="profile-image">
+      </label> 
+    </div>
+        <h1 class="text-light" id="name"><a href="index.html" contenteditable="true">Riya Choudhary</a></h1>
+        <div class="social-links mt-3 text-center">
+            <a href="https://twitter.com/" class="twitter"><i class="bx bxl-twitter"></i></a>
+            <a href="https://www.facebook.com/" class="facebook"><i class="bx bxl-facebook"></i></a>
+            <a href="https://www.instagram.com/" class="instagram"><i class="bx bxl-instagram"></i></a>
+            <a href="https://join.skype.com/invite/" class="google-plus"><i class="bx bxl-skype"></i></a>
+            <a href="https://www.linkedin.com/in" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+        </div>
+    </div>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const name = document.getElementById("name").querySelector("a");
+            const profileImage = document.getElementById("profile-image");
+            const imageInput = document.getElementById("image-input");
+            const updateButton = document.getElementById("update-button");
+    
+            // Event listener for clicking the "Update" button
+            updateButton.addEventListener("click", function() {
+                const newName = name.innerText.trim();
+                const newImage = profileImage.src; // Get the updated image source here
+    
+                // Save the updated name and image to localStorage
+                const updatedData = {
+                    name: newName,
+                    image: newImage
+                };
+                localStorage.setItem('updatedData', JSON.stringify(updatedData));
+                
+                console.log("Updated name:", newName);
+                console.log("Updated image:", newImage);
+            });
+    
+            // Event listener for image upload
+            imageInput.addEventListener("change", function(event) {
+                const file = event.target.files[0];
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    profileImage.src = event.target.result; // Display the uploaded image
+                };
+                reader.readAsDataURL(file);
+            });
+    
+            // Load the saved data from localStorage
+            const storedDataJSON = localStorage.getItem('updatedData');
+            if (storedDataJSON) {
+                const storedData = JSON.parse(storedDataJSON);
+                name.innerText = storedData.name;
+                profileImage.src = storedData.image;
+            }
+        });
+    </script>    
+      <!-- <div class="profile" id="profile">
         <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle">
         <h1 class="text-light" id="name"><a href="index.html" contenteditable="true">Pavan Choudhary</a></h1>
         <div class="social-links mt-3 text-center">
@@ -61,10 +120,9 @@
             <a href="https://join.skype.com/invite/" class="google-plus"><i class="bx bxl-skype"></i></a>
             <a href="https://www.linkedin.com/in" class="linkedin"><i class="bx bxl-linkedin"></i></a>
         </div>
-        <!-- <button id="update-button">Update</button> -->
-    </div>
+    </div> -->
     
-    <script>
+    <!-- <script>
         document.addEventListener("DOMContentLoaded", function() {
             const name = document.getElementById("name").querySelector("a");
             const updateButton = document.getElementById("update-button");
@@ -88,9 +146,9 @@
                 }
             });
         });
-    </script>
+    </script> -->
     
-    
+      
       <!-- <div class="profile" id="profile">
         <img src="assets/img/team-2.jpg" alt="" class="img-fluid rounded-circle">
         <h1 class="text-light" id="name"><a href="index.html" contenteditable="true">Pavan Choudhary</a></h1>
@@ -206,7 +264,7 @@
       </script>       -->
       <nav class="nav-menu">
         <ul id="menu-list">
-            <li class="active" id="home"><a href="index.html" contenteditable="true">Nav Home</a></li>
+            <li><a href="#hero" contenteditable="true">Nav Home</a></li>
             <li><a href="#about" contenteditable="true"><span>Nav About</span> </a></li>
             <li><a href="#resume" contenteditable="true">Nav Resume</a></li>
             <li><a href="#portfolio" contenteditable="true">Nav Portfolio</a></li>
@@ -756,10 +814,83 @@
     </section> -->
     <!-- End Facts Section -->
     <!-- ======= Skills Section ======= -->
-    <section id="skills" class="skills section-bg">
+<section id="skills" class="skills section-bg">
+    <div class="container">
+        <div class="section-title">
+            <h2 contenteditable="true">Skills</h2> <!-- Making heading editable -->
+            <div id="skills-content" contenteditable="true">
+                <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
+            </div>
+        </div>
+        <div class="row skills-content">
+            <div class="col-lg-6" data-aos="fade-up">
+                <div class="progress">
+                    <span class="skill" contenteditable="true">HTML <i class="val" contenteditable="true">100%</i></span>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <!-- More progress bars -->
+            </div>
+            <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="progress">
+                    <span class="skill" contenteditable="true">PHP <i class="val" contenteditable="true">80%</i></span>
+                    <div class="progress-bar-wrap">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                </div>
+                <!-- More progress bars -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const editButton = document.getElementById("edit-button");
+    const updateButton = document.getElementById("update-button");
+    const SkillsContent = document.getElementById("skills-content");
+    const SkillsHeading = document.querySelector("#skills .section-title h2"); // Selecting the heading within the skills section
+
+    editButton.addEventListener("click", function() {
+        SkillsContent.contentEditable = "true";
+        SkillsHeading.contentEditable = "true"; // Make the heading editable
+        // SkillsContent.focus();
+    });
+
+    updateButton.addEventListener("click", function() {
+        SkillsContent.contentEditable = "false";
+        SkillsHeading.contentEditable = "false"; // Disable editing heading after updating
+        const SkillsNormalText = [];
+        const SkillsBulletPoints = [];
+
+        SkillsContent.childNodes.forEach(node => {
+            if (node.nodeName.toLowerCase() === "p") {
+                // Handle normal text
+                const text = node.textContent.trim();
+                if (text !== "") {
+                    SkillsNormalText.push(text);
+                }
+            } else if (node.nodeName.toLowerCase() === "ul") {
+                // Handle bullet points
+                node.childNodes.forEach(liNode => {
+                    if (liNode.nodeType === Node.ELEMENT_NODE && liNode.nodeName.toLowerCase() === "li") {
+                        SkillsBulletPoints.push(liNode.textContent.trim());
+                    }
+                });
+            }
+        });
+
+        const updatedContent = { "Heading": SkillsHeading.textContent, "NormalText": SkillsNormalText, "BulletPoints": SkillsBulletPoints };
+        console.log(JSON.stringify(updatedContent));
+    });
+});
+</script>
+
+    <!-- <section id="skills" class="skills section-bg">
       <div class="container">
         <div class="section-title">
-          <h2 contenteditable="true">Skills</h2> <!-- Making heading editable -->
+          <h2 contenteditable="true">Skills</h2> 
           <div id="skills-content" contenteditable="true">
             <p>Magnam dolores commodi suscipit. Necessitatibus eius consequatur ex aliquid fuga eum quidem. Sit sint consectetur velit. Quisquam quos quisquam cupiditate. Et nemo qui impedit suscipit alias ea. Quia fugiat sit in iste officiis commodi quidem hic quas.</p>
           </div>
@@ -772,7 +903,7 @@
                 <div class="progress-bar" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
-            <!-- More progress bars -->
+       
           </div>
           <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
             <div class="progress">
@@ -781,7 +912,6 @@
                 <div class="progress-bar" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100"></div>
               </div>
             </div>
-            <!-- More progress bars -->
           </div>
         </div>
       </div>
@@ -796,25 +926,24 @@
     
         editButton.addEventListener("click", function() {
           SkillsContent.contentEditable = "true";
-          SkillsHeading.contentEditable = "true"; // Make the heading editable
-          // SkillsContent.focus();
+          SkillsHeading.contentEditable = "true";
         });
     
         updateButton.addEventListener("click", function() {
           SkillsContent.contentEditable = "false";
-          SkillsHeading.contentEditable = "false"; // Disable editing heading after updating
+          SkillsHeading.contentEditable = "false"; 
           const SkillsnormalText = [];
           const SkillsbulletPoints = [];
     
           SkillsContent.childNodes.forEach(node => {
             if (node.nodeName.toLowerCase() === "p") {
-              // Handle normal text
+              
               const text = node.textContent.trim();
               if (text !== "") {
                 SkillsnormalText.push(text);
               }
             } else if (node.nodeName.toLowerCase() === "ul") {
-              // Handle bullet points
+            
               node.childNodes.forEach(liNode => {
                 if (liNode.nodeType === Node.ELEMENT_NODE && liNode.nodeName.toLowerCase() === "li") {
                   SkillsbulletPoints.push(liNode.textContent.trim());
@@ -827,7 +956,7 @@
           console.log(JSON.stringify(updatedContent));
         });
       });
-    </script>    
+    </script>     -->
     <!-- <section id="skills" class="skills section-bg">
       <div class="container">
         <div class="section-title">
